@@ -46,8 +46,8 @@ async function writeData(response) {
             } else {
                 console.log(res)
             }
+            client.end();
         });
-        client.end();
     }
     
 }
