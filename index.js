@@ -8,6 +8,13 @@ const config = require('./config.json');
 // Initialize the app
 app.set('port', (process.env.PORT || 5001));
 
+app.get('/', function(request, response) {
+    const result = 'App is running';
+    response.send(result);
+  }).listen(app.get('port'), function() {
+    console.log('App is running, server is listening on port ', app.get('port'));
+  });
+  
 function createVozillaInstance(instanceparams) {
     const instance = axios.create(instanceparams);
     return instance;
