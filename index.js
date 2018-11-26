@@ -14,7 +14,7 @@ app.get('/', function(request, response) {
   }).listen(app.get('port'), function() {
     console.log('App is running, server is listening on port ', app.get('port'));
   });
-  
+
 function createVozillaInstance(instanceparams) {
     const instance = axios.create(instanceparams);
     return instance;
@@ -39,7 +39,7 @@ async function writeData(response) {
     const text = 'INSERT INTO locationHistory(car, latitude, longitude, time, status) VALUES($1, $2, $3, $4, $5)';
     await client.connect();
     for(var i=0;i<vehicles.length;i++) {
-        const values = [vehicles[i].platesNumber, vehicles[i].location.latitude, vehicles[i].location.longitude, moment().toISOString(), vehicle[i].status];
+        const values = [vehicles[i].platesNumber, vehicles[i].location.latitude, vehicles[i].location.longitude, moment().toISOString(), vehicles[i].status];
         client.query(text, values, (err, res) => {
             if(err) {
                 console.log(err.stack);
