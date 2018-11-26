@@ -6,7 +6,7 @@ const axios = require('axios');
 const config = require('./config.json');
 
 // Initialize the app
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 5001));
 
 function createVozillaInstance(instanceparams) {
     const instance = axios.create(instanceparams);
@@ -26,7 +26,7 @@ async function getCars(instance, requestParams) {
 async function writeData(response) {
     const vehicles = response.data.vehicles;
     const client = new Client({
-        connectionString: 'postgres://psxlgurcfcqdhz:66544c0410a75ff78a8b7322c642b4a98a298603d626a1be669df5c71814a891@ec2-54-246-85-234.eu-west-1.compute.amazonaws.com:5432/dadshomla2a967',
+        connectionString: process.env.DATABASE_URL,
         ssl: true
     });
     const text = 'INSERT INTO locationHistory(car, latitude, longitude, time, status) VALUES($1, $2, $3, $4, $5)';
