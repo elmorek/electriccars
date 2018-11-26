@@ -1,0 +1,20 @@
+{ "instanceParams" : {
+        "baseURL" : "https://api-client-mobile.vozilla.pl",
+        "timeout" : 1000,
+        "headers" : {
+            "app_version" : "1.1.1",
+            "hardware_version" : "iPhone",
+            "Accept-Language" : "en-GB",
+            "Host" : "api-client-mobile.vozilla.pl",
+            "Accept-Encoding" : "en-GB",
+            "platform" : "iOS",
+            "Accept" : "*/*",
+            "User-Agent" : "Vozilla/1.1.1 (pl.techgarden.vozilla; build:1511190123; iOS 10.3.3) Alamofire/4.5.0",
+            "Connection" : "close",
+            "os_version" : "10.3.3"
+        }
+    },
+    "requestParams" : {
+        "objectType" : "VEHICLE"
+    }
+}
