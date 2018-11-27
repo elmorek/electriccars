@@ -16,5 +16,6 @@
     },
     "requestParams" : {
         "objectType" : "VEHICLE"
-    }
+    },
+    "DATABASE_URL" : "postgres://vozilla:V0z1ll4@127.0.0.1:5432/vozilla"
 }

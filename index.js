@@ -32,10 +32,10 @@ async function getCars(instance, requestParams) {
 
 async function writeData(response) {
     const vehicles = response.data.vehicles;
-    const text = 'INSERT INTO locationHistory(car, latitude, longitude, time, status) VALUES($1, $2, $3, $4, $5)';
+    const text = 'INSERT INTO locationhistory(car, latitude, longitude, time, status) VALUES($1, $2, $3, $4, $5)';
     for(var i=0;i<vehicles.length;i++) {
         const client = new Client({
-            connectionString: process.env.DATABASE_URL,
+            connectionString: config.DATABASE_URL,
             ssl: true
         });
         await client.connect();
@@ -44,7 +44,7 @@ async function writeData(response) {
             if(err) {
                 console.log(err.stack);
             } else {
-                console.log(res)
+                console.log(vehicles[i].platesNumber+" added")
             }
             client.end();
         });
