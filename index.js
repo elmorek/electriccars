@@ -47,8 +47,6 @@ async function writeData(response) {
             } else {
                 if (res.rowCount === 0) {
                     writeEntry(vehicles[i]);
-                } else {
-                    console.log('Nothing to do');
                 }
             }
             client.end();
