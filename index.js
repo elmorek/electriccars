@@ -33,7 +33,7 @@ async function getCars(instance, requestParams) {
 async function writeData(response) {
     const vehicles = response.data.vehicles;
     const text = 'INSERT INTO locationhistory(car, latitude, longitude, time, status) VALUES($1, $2, $3, $4, $5)';
-    const entryCheck = 'SELECT (car, latitude, longitude, time) FROM locationhistory WHERE (car = $1 AND latitude = $2 AND longitude = $3)';
+    const entryCheck = 'SELECT (car, latitude, longitude) FROM locationhistory WHERE (car = $1 AND latitude = $2 AND longitude = $3)';
     for(var i=0;i<vehicles.length;i++) {
         const client = new Client({
             connectionString: config.DATABASE_URL,
