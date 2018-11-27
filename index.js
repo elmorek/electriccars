@@ -33,23 +33,49 @@ async function getCars(instance, requestParams) {
 async function writeData(response) {
     const vehicles = response.data.vehicles;
     const text = 'INSERT INTO locationhistory(car, latitude, longitude, time, status) VALUES($1, $2, $3, $4, $5)';
+    const entryCheck = 'SELECT (car, latitude, longitude, time) FROM locationhistory WHERE (car = $1 AND latitude = $2 AND longitude = $3)';
     for(var i=0;i<vehicles.length;i++) {
         const client = new Client({
             connectionString: config.DATABASE_URL,
-            ssl: true
+            ssl: false
         });
         await client.connect();
-        const values = [vehicles[i].platesNumber, vehicles[i].location.latitude, vehicles[i].location.longitude, moment().toISOString(), vehicles[i].status];
-        client.query(text, values, (err, res) => {
+        const entryCheckValues = [vehicles[i].platesNumber, vehicles[i].location.latitude, vehicles[i].location.longitude];
+        client.query(entryCheck, entryCheckValues, (err, res) => {
             if(err) {
                 console.log(err.stack);
             } else {
-                console.log(vehicles[i].platesNumber+" added")
+                if (res.rowCount === 0) {
+                    writeEntry(vehicles[i]);
+                } else {
+                    console.log('Nothing to do');
+                }
             }
             client.end();
         });
-    }
-    
+        
+    } 
 }
-const instance = createVozillaInstance(config.instanceParams);
-getCars(instance, config.requestParams);
+
+async function writeEntry(vehicle) {
+    const text = 'INSERT INTO locationhistory(car, latitude, longitude, time, status) VALUES($1, $2, $3, $4, $5)';
+    const values = [vehicle.platesNumber, vehicle.location.latitude, vehicle.location.longitude, moment().toISOString(), vehicle.status];
+    const client = new Client({
+        connectionString: config.DATABASE_URL,
+        ssl: false
+    });
+    await client.connect();
+    client.query(text, values, (err, res) => {
+        if(err) {
+            console.log(err.stack);
+        }
+        client.end();
+    });
+}
+const reqinstance2 = createVozillaInstance(config.instanceParams);
+
+getCars(reqinstance2, config.requestParams);
+setInterval(function() {
+    getCars(reqinstance2, config.requestParams);
+    console.log("Updated at "+moment().toISOString());
+}, 30000)
