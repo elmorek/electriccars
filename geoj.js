@@ -19,7 +19,7 @@ module.exports = {
 
   convertToGeoJSON: (err, response) => {
     if (err) throw err.stack;
-    fs.writeFile('./static/vehicles.geojson', JSON.stringify(GeoJSON.parse(response.rows, { Point: ['latitude', 'longitude'] })), (err) => {
+    fs.writeFile('static/vehicles.geojson', JSON.stringify(GeoJSON.parse(response.rows, { Point: ['latitude', 'longitude'] })), (err) => {
       if (err) throw err.stack;
     });
   },
