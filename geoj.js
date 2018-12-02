@@ -4,21 +4,23 @@ const fs = require('fs');
 
 const db = require('./db');
 
-function getLocations(callback) {
-  const text = 'SELECT * from locationhistory';
+module.exports = {
 
-  db.getClient((err, client, done) => {
-    if (err) throw err.stack;
-    client.query(text, (err, res) => {
-      callback(err, res);
-      done();
+  getLocations: (callback) => {
+    const text = 'SELECT * from locationhistory';
+    db.getClient((err, client, done) => {
+      if (err) throw err.stack;
+      client.query(text, (err, res) => {
+        callback(err, res);
+        done();
+      });
     });
-  });
-}
+  },
 
-function convertToGeoJSON(err, response) {
-  if (err) throw err.stack;
-  fs.writeFile('./static/vehicles.geojson', JSON.stringify(GeoJSON.parse(response.rows, { Point: ['latitude', 'longitude'] })), (err) => {
+  convertToGeoJSON: (err, response) => {
     if (err) throw err.stack;
-  });
-}
+    fs.writeFile('./static/vehicles.geojson', JSON.stringify(GeoJSON.parse(response.rows, { Point: ['latitude', 'longitude'] })), (err) => {
+      if (err) throw err.stack;
+    });
+  },
+};
