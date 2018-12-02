@@ -13,7 +13,7 @@ const geoj = require('./geoj');
 
 // Initialize the app
 app.set('port', (process.env.PORT || 5001));
-app.use(express.static('static'));
+app.use('/static', express.static('static'));
 
 function getEntries(callback) {
   const text = 'SELECT * from locationhistory';
