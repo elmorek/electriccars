@@ -25,7 +25,7 @@ function getEntries(callback) {
 }
 
 app.get('/', (request, response) => {
-  const result = getEntries((err, res) => {
+  getEntries((err, res) => {
     if (err) throw err;
     let entries = '';
     for (let i = 0; i < res.rows.length; i += 1) {
