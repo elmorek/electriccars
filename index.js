@@ -9,6 +9,8 @@ const config = require('./config.json');
 
 const db = require('./db');
 
+const geoj = require('./geoj');
+
 // Initialize the app
 app.set('port', (process.env.PORT || 5001));
 
@@ -136,5 +138,8 @@ getCars(reqinstance2, config.requestParams);
 
 setInterval(() => {
   getCars(reqinstance2);
+  geoj.getLocations((err, res) => {
+    geoj.convertToGeoJSON(err, res);
+  });
   console.log(`Updated at ${moment().toISOString()}`);
 }, 30000);
