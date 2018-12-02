@@ -11,9 +11,70 @@ const db = require('./db');
 
 // Initialize the app
 app.set('port', (process.env.PORT || 5001));
+
+
+function getEntries(callback) {
+  const text = 'SELECT * from locationhistory';
+  db.getClient((err, client, done) => {
+    if (err) throw err;
+    client.query(text, (err, res) => {
+      callback(err, res);
+      done();
+    });
+  });
+}
+
 app.get('/', (request, response) => {
-  const result = 'App is running';
-  response.send(result);
+  const result = getEntries((err, res) => {
+    if (err) throw err;
+    let entries = '';
+    for (let i = 0; i < res.rows.length; i += 1) {
+      entries += `
+        <tr>
+          <td>${res.rows[i].car}</td>
+          <td>${res.rows[i].latitude}</td>
+          <td>${res.rows[i].longitude}</td>
+          <td>${res.rows[i].time}</td>
+          <td>${res.rows[i].status}</td>
+        </tr>`;
+    }
+    response.send(`
+      <html>
+        <head>
+          <style>
+          table {
+              font-family: arial, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+          }
+
+          td, th {
+              border: 1px solid #dddddd;
+              text-align: left;
+              padding: 8px;
+          }
+
+          tr:nth-child(even) {
+              background-color: #dddddd;
+          }
+          </style>
+        </head>
+        <body>
+          <p>Number of entries: ${res.rowCount}</p>
+          <table>
+            <tr>
+              <th>Car</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Time</th>
+              <th>Status</th>
+            </tr>
+            ${entries}
+          </table>
+        </body>
+      </html>
+      `);
+  });
 }).listen(app.get('port'), () => {
   console.log('App is running');
 });
