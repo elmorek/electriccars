@@ -16,7 +16,7 @@ app.set('port', (process.env.PORT || 5001));
 app.use('/static', express.static('static'));
 
 function getEntries(callback) {
-  const text = 'SELECT * from locationhistory';
+  const text = 'SELECT TOP 400 from locationhistory order by Time DESC';
   db.getClient((err, client, done) => {
     if (err) throw err;
     client.query(text, (err, res) => {
